@@ -6,6 +6,7 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
@@ -14,6 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
 import com.ups.demo.model.Person;
+import com.ups.demo.repository.PersonRepository;
 import com.ups.demo.service.PersonService;
 
 @SpringBootTest
@@ -21,6 +23,8 @@ import com.ups.demo.service.PersonService;
 class PersonServiceTest {
 
     @MockBean
+    PersonRepository personRepository;
+    @Autowired
     PersonService personService;
     
     List<Person> personList = new ArrayList<>();
@@ -35,7 +39,7 @@ class PersonServiceTest {
 	
 	@Test
 	public void test_get_all_persons() {
-		when(personService.getAllPersons()).thenReturn(personList);
+		when(personRepository.findAll()).thenReturn(personList);
 		assertNotNull(personService.getAllPersons());
 		assertEquals(3, personService.getAllPersons().size());
 	}
